@@ -29,7 +29,7 @@ int getline(char s[], int lim) {
     int c, i;
 
     for (i=0; (c=getchar())!=EOF && c!='\n' && i<lim-1; ++i)
-        s[i] = c; // here s is being modified directly
+        s[i] = c;
     if (c == '\n') {
         s[i] = c;
         ++i;
@@ -39,63 +39,59 @@ int getline(char s[], int lim) {
 }
 
 void breakline(char s[], int len) {
-    int c, i, j, status;
-    int l_count, marker;
-    int word_len;
-    int st_index, end_index;
-    char pstring[MAXLENGTH + 2];
+    int i, j, status, line_count;
+    int word_len, st_index, end_index;
+    char pstring[MAXLENGTH + 2]; // +2 for new line and null char
 
-    l_count = 0;
+    line_count = 0;
     status = OUT;
     for (i = 0; i < len; ++i) {
 
         /* Beginning of word */
         if (status == OUT && (s[i] != ' ' || s[i] != '\n' || s[i] != '\t')) {
-            // printf("TEST1\n");
             status = IN;
             st_index = i;
         }
 
         /* End of word */
         if (status == IN && (s[i] == ' ' || s[i] == '\n' || s[i] == '\t')) {
-            // printf("TEST2\n");
             status = OUT;
             end_index = i;
             word_len = end_index - st_index;
 
             /* Decide whether or not word fits */
-            if (l_count + word_len < MAXLENGTH) {
+            if (line_count + word_len < MAXLENGTH) { // within count
                 for (j = st_index; j < end_index; ++j) {
-                    pstring[l_count] = s[j];
-                    ++l_count;
+                    pstring[line_count] = s[j];
+                    ++line_count;
                 }
             }
             else { // hits MAXLENGTH limit
-                pstring[l_count] = '\n';
-                ++l_count;
-                pstring[l_count] = '\0';
+                /* Immidiately print current line */
+                pstring[line_count] = '\n';
+                ++line_count;
+                pstring[line_count] = '\0';
                 printf("%s", pstring);
 
-                l_count = 0;
+                /* Reset line_count to new */
+                line_count = 0;
                 for (j = st_index; j < end_index; ++j) {
-                    pstring[l_count] = s[j];
-                    ++l_count;
+                    pstring[line_count] = s[j];
+                    ++line_count;
                 }
             }
         }
 
         /* Dealing with blanks */
         if (status == OUT && s[i] == ' ') {
-            // printf("TEST3\n");
-            pstring[l_count] = s[i];
-            ++l_count;
+            pstring[line_count] = s[i];
+            ++line_count;
         }
     }
 
     /* Print the remainder of the string */
-    // printf("%d\n", l_count);
-    pstring[l_count] = '\n';
-    ++l_count;
-    pstring[l_count] = '\0';
+    pstring[line_count] = '\n';
+    ++line_count;
+    pstring[line_count] = '\0';
     printf("%s", pstring);
 }
