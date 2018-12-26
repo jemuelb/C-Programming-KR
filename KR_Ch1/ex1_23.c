@@ -17,18 +17,19 @@ main () {
             }
 
             /* May be multi-line comment */
-            else if ((c = getchar()) == '*') {
+            else if (c == '*') {
                 status = IN;
                 c = getchar(); //move to next char
             }
+            else
+                putchar('/');
         }
 
         if (status == IN && c == '*') {
             if ((c = getchar()) == '/')
                 status = OUT;
+                c = getchar();
         }
-        // else if (status == IN)
-        //     ;
 
         if (status == OUT)
             putchar(c);
