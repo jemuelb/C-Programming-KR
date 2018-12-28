@@ -34,12 +34,17 @@ void any(char s1[], char s2[]) {
 
     while (!status) {
         for (x = 0; s2[x] != '\0'; ++x) {
-            if (s1[i] == s2[x]) {
+            if (s1[i] == s2[x] && s1[i] != '\n') {
                 status = YES;
                 loc = i;
             }
         }
+        if (s1[i] == '\0') {
+            status = YES;
+            loc = -1;
+        }
         ++i;
     }
+
     printf("First location is: %d", loc);
 }
