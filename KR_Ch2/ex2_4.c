@@ -28,15 +28,18 @@ main() {
 void squeeze(char s1[], char s2[]) {
     enum match {NO, YES};
     enum match status = NO;
-    int i, j;
-    int x;
+    int i; // index of s1 string
+    int j; // index for writing out new string
+    int x; // index of s2 string
 
     for (i = j = 0; s1[i] != '\0'; i++) {
+        /* cycle through all of s2, if there is a match, change status for
+        exclusion in new version of string */
         for (x = 0; s2[x] != '\0'; x++) {
             if (s2[x] == s1[i])
                 status = YES;
         }
-        if (status == NO) // there is no match
+        if (status == NO) // there is no match, include char
             s1[j++] = s1[i];
         status = NO;
     }
