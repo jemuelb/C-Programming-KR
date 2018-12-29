@@ -3,6 +3,8 @@
 
 int getline(char l[], int lim);
 void escape(char s[], char t[]);
+void unescape(char s[], char t[]);
+
 main() {
     int len;
     char line[MAXLINE];
@@ -10,8 +12,8 @@ main() {
 
     while (len = getline(line, MAXLINE) > 0) {
         printf("Echo: %s", line);
-        escape(line, newline);
-        printf("Converted: %s\n", newline);
+        unescape(line, newline);
+        printf("Converted: %s", newline);
     }
 
     return 0;
@@ -48,6 +50,29 @@ void escape(char s[], char t[]) {
                 break;
         }
         ++i;
+    }
+    t[j] = '\0';
+}
+
+void unescape(char s[], char t[]) {
+    int i, j;
+
+    for (i = j = 0; s[i] != '\0'; ++i) {
+        if (s[i] != '\\')
+            t[j++] = s[i];
+        else {
+            switch (s[++i]) {
+                case 'n':
+                    t[j++] = '\n';
+                    break;
+                case 't':
+                    t[j++] = '\t';
+                    break;
+                default:
+                    t[j++] = '\\';
+                    t[j++] = s[i];
+            }
+        }
     }
     t[j] = '\0';
 }
