@@ -45,6 +45,7 @@ double atof(char s[]) {
         val = 10.0 * val + (s[i] - '0');
         power *= 10.0;
     }
+    /* Modified to accept scientific notation */
     if (s[i] == 'e' || s[i] == 'E')
         i++;
     sci_sign = (s[i] == '-') ? -1 : 1;
@@ -55,6 +56,7 @@ double atof(char s[]) {
     }
     for (sci = 10.0; exp > 1; exp--)
         sci *= 10.0;
+
     if (exp > 0) {
         if (sci_sign > 0)
             return sign * (val / power) * sci;
