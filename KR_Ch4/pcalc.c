@@ -19,7 +19,7 @@ main() {
                 push(atof(s));
                 break;
             case '+':
-                push(pop() * pop());
+                push(pop() + pop());
                 break;
             case '*':
                 push(pop() * pop());
@@ -55,7 +55,8 @@ double val[MAXVAL];
 void push(double f) {
     if (sp < MAXVAL)
         val[sp++] = f;
-    else printf("error: stack full, can't push %g\n", f);
+    else
+        printf("error: stack full, can't push %g\n", f);
 }
 
 double pop(void) {
