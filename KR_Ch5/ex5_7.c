@@ -48,18 +48,19 @@ void writelines(char *lineptr[], int nlines) {
         printf("%s\n", *lineptr++);
 }
 
+/* sort v[left]...v[right] into increasing order */
 void qsort(char *v[], int left, int right) {
     int i, last;
     void swap(char *v[], int i, int j);
 
-    if (left >= right)
-        return;
-    swap(v, left, (left + right)/2);
-    last = left;
-    for (i = left+1; i <= right; i++)
+    if (left >= right)      // do nothing if array contains
+        return;             // fewer than two elements
+    swap(v, left, (left + right)/2);    // move partition element
+    last = left;                        // to v[0]
+    for (i = left+1; i <= right; i++)   // partition
         if (strcmp(v[i], v[left]) < 0)
             swap(v, ++last, i);
-    swap(v, left, last);
+    swap(v, left, last);                // restore partition element
     qsort(v, left, last-1);
     qsort(v, last+1, right);
 }
